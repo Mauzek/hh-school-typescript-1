@@ -19,7 +19,7 @@ export declare function delay(ms: number): Promise<void>;
 // ==========================================
 // 3. memoize
 // ==========================================
-export declare function memoize<T extends (...args: any[]) => any>(fn: T): T;
+export declare function memoize<T extends unknown[], R>(fn: (...args: T) => R,): (...args: T) => R;
 
 
 // ==========================================

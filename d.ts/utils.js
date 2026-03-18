@@ -26,16 +26,21 @@ export function delay(ms) {
 export function memoize(fn) {
   const cache = new Map();
   return function (...args) {
-    const key = JSON.stringify(args);
-    if (!cache.has(key)) {
-      const result = fn.call(this, ...args);
-      cache.set(key, result);
-      return result;
+    const key = args.map((a) => `${typeof a}:${String(a)}`).join("|");
+    
+    const cached = cache.get(key);
+
+    if (cached !== undefined) {
+      console.log("Из кэша ↓↓↓");
+      return cached.value;
     }
-    console.log("Из кэша ↓↓↓");
-    return cache.get(key);
-  };
-}
+
+    const result = fn.call(this, ...args);
+    cache.set(key, { value: result });
+    return result;
+  }
+};  
+
 
 export function typedObject(schema) {
   return new Proxy(

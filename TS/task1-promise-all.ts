@@ -20,7 +20,7 @@ function promiseAllTS<T extends readonly unknown[] | []>(promises: T): Promise<P
     if (promises.length === 0) return resolve(results as unknown as PromiseAllResult<T>);
 
     promises.forEach((promise, index) => {
-      Promise.resolve(promise as T[number])
+      Promise.resolve<T[number]>(promise) // Было => Promise.resolve(promise as T[number])
         .then((value) => {
           results[index] = value;
           resolvedCount++;
